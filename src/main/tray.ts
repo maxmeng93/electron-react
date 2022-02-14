@@ -1,5 +1,6 @@
-import { Tray, Menu, app } from 'electron';
+import { Tray, Menu, app, BrowserWindow } from 'electron';
 import path from 'path';
+import { resolveHtmlPath } from './util';
 
 const iconTray = new Tray(path.join(__dirname, '../../assets/icons/24x24.png'));
 // @ts-ignore
@@ -9,16 +10,25 @@ iconTray.setToolTip('Electron应用');
 
 const trayMenu = Menu.buildFromTemplate([
   {
-    label: '设置',
+    label: '关于',
     click() {
-      console.log('设置');
+      const mainWindow = new BrowserWindow({
+        show: false,
+        width: 1024,
+        height: 728,
+        webPreferences: {
+          preload: path.join(__dirname, 'preload.js'),
+        },
+      });
+
+      mainWindow.loadURL('http://localhost:1212/#/about');
+      mainWindow.show();
     },
   },
   {
     label: '退出',
     click() {
       if (process.platform !== 'darwin') {
-        console.log('退出');
         app.quit();
       }
     },
