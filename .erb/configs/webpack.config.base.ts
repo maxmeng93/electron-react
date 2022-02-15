@@ -5,6 +5,7 @@
 import webpack from 'webpack';
 import webpackPaths from './webpack.paths';
 import { dependencies as externals } from '../../release/app/package.json';
+import CopyPlugin from 'copy-webpack-plugin';
 
 const configuration: webpack.Configuration = {
   externals: [...Object.keys(externals || {})],
@@ -46,6 +47,14 @@ const configuration: webpack.Configuration = {
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: webpackPaths.srcRendererAssetsPath,
+          to: webpackPaths.distRendererAssetsPath,
+        },
+      ],
     }),
   ],
 };

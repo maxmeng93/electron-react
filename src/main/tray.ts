@@ -2,7 +2,13 @@ import { Tray, Menu, app, BrowserWindow } from 'electron';
 import path from 'path';
 import { resolveHtmlPath } from './util';
 
-const iconTray = new Tray(path.join(__dirname, '../../assets/icons/24x24.png'));
+const iconPath = path.join(__dirname, '../renderer/assets/icons/24x24.png');
+
+// if (process.env.NODE_ENV === 'production') {
+//   iconPath = '';
+// }
+
+const iconTray = new Tray(iconPath);
 // @ts-ignore
 global.iconTray = iconTray;
 
@@ -21,7 +27,7 @@ const trayMenu = Menu.buildFromTemplate([
         },
       });
 
-      mainWindow.loadURL('http://localhost:1212/#/about');
+      mainWindow.loadURL(resolveHtmlPath('about'));
       mainWindow.show();
     },
   },
