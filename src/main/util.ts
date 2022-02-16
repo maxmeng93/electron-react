@@ -1,5 +1,6 @@
 /* eslint import/prefer-default-export: off, import/no-mutable-exports: off */
 import path from 'path';
+import url from 'url';
 
 export let resolveHtmlPath: (hash: string) => string;
 
@@ -10,10 +11,11 @@ if (process.env.NODE_ENV === 'development') {
   };
 } else {
   resolveHtmlPath = (hash: string) => {
-    return `file://${path.resolve(
-      __dirname,
-      '../renderer/',
-      `index.html#${hash}`
-    )}`;
+    return url.format({
+      protocol: 'file',
+      slashes: true,
+      pathname: path.resolve(__dirname, '../renderer/', `index.html`),
+      hash,
+    });
   };
 }
