@@ -1,3 +1,5 @@
+import { Tray } from 'electron';
+
 declare global {
-  const tray: any;
+  const tray: Tray;
 }
