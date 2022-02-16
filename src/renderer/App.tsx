@@ -18,21 +18,24 @@ const Hello = () => {
 
 export default function App() {
   return (
-    <HashRouter>
-      <Routes>
-        <Route path="/" element={<Hello />}>
-          <Route path="home" element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route
-            path="*"
-            element={
-              <main>
-                <p>404</p>
-              </main>
-            }
-          />
-        </Route>
-      </Routes>
-    </HashRouter>
+    <div>
+      <div>app router</div>
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<Hello />}>
+            <Route path="home" element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route
+              path="*"
+              element={
+                <main>
+                  <p>404</p>
+                </main>
+              }
+            />
+          </Route>
+        </Routes>
+      </HashRouter>
+    </div>
   );
 }

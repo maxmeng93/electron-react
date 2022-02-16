@@ -21,5 +21,8 @@
     "allowJs": true,
     "outDir": "release/app/dist"
   },
+  "include": [
+    "src/types/*.ts"
+  ],
   "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
 }

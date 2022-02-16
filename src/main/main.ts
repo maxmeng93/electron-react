@@ -41,9 +41,10 @@ if (process.env.NODE_ENV === 'production') {
 const isDevelopment =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
-if (isDevelopment) {
-  require('electron-debug')();
-}
+// if (isDevelopment) {
+//   require('electron-debug')();
+// }
+require('electron-debug')({ isEnabled: true });
 
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
@@ -58,7 +59,7 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
-const createWindow = async () => {
+export const createWindow = async (page: string) => {
   if (isDevelopment) {
     await installExtensions();
   }
@@ -81,7 +82,11 @@ const createWindow = async () => {
     },
   });
 
-  mainWindow.loadURL(resolveHtmlPath());
+  const pageURL = resolveHtmlPath(page);
+
+  log.info('createWindow', pageURL);
+
+  mainWindow.loadURL(pageURL);
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {
@@ -124,18 +129,18 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.on('ready', function () {
+app.on('ready', () => {
   require('./tray');
 });
 
 app
   .whenReady()
   .then(() => {
-    createWindow();
+    createWindow('/');
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
-      if (mainWindow === null) createWindow();
+      if (mainWindow === null) createWindow('/');
     });
   })
   .catch(console.log);

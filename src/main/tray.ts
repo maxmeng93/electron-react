@@ -1,34 +1,31 @@
 import { Tray, Menu, app, BrowserWindow } from 'electron';
 import path from 'path';
-import { resolveHtmlPath } from './util';
+// import { resolveHtmlPath } from './util';
+import { createWindow } from './main';
 
 const iconPath = path.join(__dirname, '../renderer/assets/icons/24x24.png');
 
-// if (process.env.NODE_ENV === 'production') {
-//   iconPath = '';
-// }
+const tray = new Tray(iconPath);
+global.tray = tray;
 
-const iconTray = new Tray(iconPath);
-// @ts-ignore
-global.iconTray = iconTray;
-
-iconTray.setToolTip('Electron应用');
+tray.setToolTip('Electron应用');
 
 const trayMenu = Menu.buildFromTemplate([
   {
     label: '关于',
     click() {
-      const mainWindow = new BrowserWindow({
-        show: false,
-        width: 1024,
-        height: 728,
-        webPreferences: {
-          preload: path.join(__dirname, 'preload.js'),
-        },
-      });
+      // const mainWindow = new BrowserWindow({
+      //   show: false,
+      //   width: 1024,
+      //   height: 728,
+      //   webPreferences: {
+      //     preload: path.join(__dirname, 'preload.js'),
+      //   },
+      // });
 
-      mainWindow.loadURL(resolveHtmlPath('about'));
-      mainWindow.show();
+      // mainWindow.loadURL(resolveHtmlPath('/about'));
+      // mainWindow.show();
+      createWindow('/about');
     },
   },
   {
@@ -41,10 +38,10 @@ const trayMenu = Menu.buildFromTemplate([
   },
 ]);
 
-iconTray.setContextMenu(trayMenu);
+tray.setContextMenu(trayMenu);
 
-iconTray.on('double-click', function () {
+tray.on('double-click', () => {
   console.log('双击托盘');
 });
 
-console.log(iconTray);
+console.log(tray);
